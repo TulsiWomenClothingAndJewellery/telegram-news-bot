@@ -5,8 +5,13 @@ import feedparser
 TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 
-print("TOKEN FOUND:", TOKEN[:10] if TOKEN else "None")
-print("CHAT_ID:", CHAT_ID)
+import os
+
+TOKEN = os.getenv("BOT_TOKEN")
+CHAT_ID = os.getenv("CHAT_ID")
+
+print("TOKEN EXISTS =", TOKEN is not None)
+print("CHAT_ID =", CHAT_ID)
 
 feeds = {
     "🟢 ગુજરાત": ("https://news.google.com/rss/search?q=ગુજરાત", 3),
