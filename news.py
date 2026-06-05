@@ -24,7 +24,7 @@ for category, (url, count) in feeds.items():
 
 url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
 
-requests.post(
+response = requests.post(
     url,
     data={
         "chat_id": CHAT_ID,
@@ -32,4 +32,4 @@ requests.post(
     }
 )
 
-print("News Sent Successfully")
+print(response.text)
