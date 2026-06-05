@@ -5,6 +5,9 @@ import feedparser
 TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 
+print("TOKEN FOUND:", TOKEN[:10] if TOKEN else "None")
+print("CHAT_ID:", CHAT_ID)
+
 feeds = {
     "🟢 ગુજરાત": ("https://news.google.com/rss/search?q=ગુજરાત", 3),
     "🔵 ભારત": ("https://news.google.com/rss?hl=en-IN&gl=IN&ceid=IN:en", 4),
