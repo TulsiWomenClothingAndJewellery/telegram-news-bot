@@ -2,8 +2,8 @@ import os
 import requests
 import feedparser
 
-TOKEN = os.getenv("8719789450:AAGMU1j5bQx6RdWiYco0GICQB5wVe8cbqQM")
-CHAT_ID = os.getenv("Future Path News")
+TOKEN = os.getenv("BOT_TOKEN")
+CHAT_ID = os.getenv("CHAT_ID")
 
 feeds = {
     "🟢 ગુજરાત": ("https://news.google.com/rss/search?q=ગુજરાત", 3),
