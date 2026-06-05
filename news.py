@@ -5,12 +5,8 @@ import feedparser
 TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 
-import os
-
-TOKEN = os.getenv("BOT_TOKEN")
-CHAT_ID = os.getenv("CHAT_ID")
-
 print("TOKEN EXISTS =", TOKEN is not None)
+print("TOKEN LENGTH =", len(TOKEN) if TOKEN else 0)
 print("CHAT_ID =", CHAT_ID)
 
 feeds = {
