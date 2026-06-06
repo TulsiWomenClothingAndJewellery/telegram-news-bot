@@ -5,9 +5,13 @@ import feedparser
 TOKEN = os.getenv("BOT_TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 
-print("TOKEN EXISTS =", TOKEN is not None)
-print("TOKEN LENGTH =", len(TOKEN) if TOKEN else 0)
-print("CHAT_ID =", CHAT_ID)
+SENT_FILE = "sent_news.txt"
+
+# પહેલેથી મોકલેલી ન્યૂઝ લોડ કરો
+sent_links = set()
+if os.path.exists(SENT_FILE):
+    with open(SENT_FILE, "r", encoding="utf-8") as f:
+        sent_links = set(line.strip() for line in f)
 
 feeds = {
     "🟢 ગુજરાત": ("https://news.google.com/rss/search?q=ગુજરાત", 3),
@@ -16,24 +20,44 @@ feeds = {
 }
 
 message = "📰 Daily News Update\n\n"
+new_links = []
 
 for category, (url, count) in feeds.items():
     message += f"{category}\n\n"
 
     feed = feedparser.parse(url)
 
-    for news in feed.entries[:count]:
+    added = 0
+    for news in feed.entries:
+        link = news.link
+
+        if link in sent_links:
+            continue
+
         message += f"• {news.title}\n"
-        message += f"{news.link}\n\n"
+        message += f"{link}\n\n"
 
-url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
+        new_links.append(link)
+        added += 1
 
-response = requests.post(
-    url,
-    data={
-        "chat_id": CHAT_ID,
-        "text": message[:4000]
-    }
-)
+        if added >= count:
+            break
 
-print(response.text)
+# જો નવી ન્યૂઝ હોય તો જ મોકલો
+if new_links:
+    response = requests.post(
+        f"https://api.telegram.org/bot{TOKEN}/sendMessage",
+        data={
+            "chat_id": CHAT_ID,
+            "text": message[:4000]
+        }
+    )
+
+    print(response.text)
+
+    with open(SENT_FILE, "a", encoding="utf-8") as f:
+        for link in new_links:
+            f.write(link + "\n")
+
+else:
+    print("No new news found.")
